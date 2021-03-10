@@ -17,6 +17,7 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<testcontainers.version>1.15.2</testcontainers.version>
+		<docker.image.prefix>atmtask</docker.image.prefix>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -89,6 +90,18 @@
 				<groupId>org.sonarsource.scanner.maven</groupId>
 				<artifactId>sonar-maven-plugin</artifactId>
 				<version>3.8.0.2131</version>
+			</plugin>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<version>1.4.12</version>
+				<configuration>
+<!-- 				<contextDirectory>src/main/</contextDirectory> -->
+					<repository>${docker.image.prefix}/${project.artifactId}</repository>
+					<buildArgs>
+						<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+					</buildArgs>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
